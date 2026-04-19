@@ -9,11 +9,21 @@
 <body class="archive">
     <div class="header">
         <img src="{% static 'img/dpb-logo.png' %}" />
+        <div class="nav-actions">
+            {% if user.is_authenticated %}
+                <span class="nav-link">{{ user.username }}</span>
+                <a href="{% url 'logout' %}" class="nav-link">Покинуть</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="nav-link">Авторизоваться</a>
+                <a href="{% url 'register' %}" class="nav-link">Создать аккаунт</a>
+            {% endif %}
+        </div>
     </div>
     <div class="archive">
         {% for post in posts %}
         <div class="one-post">
             <h2 class="post-title"><a href="{% url 'get_article' post.id %}">{{ post.title }}</a></h2>
+            <span class="fold-button">скрыть</span>
             <div class="article-info">
                 <div class="article-author">{{ post.author.username }}</div>
                 <div class="article-created-date">{{ post.created_date }}</div>
@@ -22,5 +32,7 @@
         </div>
         {% endfor %}
     </div>
+    <script src="{% static 'js/helloworld.js' %}"></script>
+    <script src="{% static 'js/fold-post.js' %}"></script>
 </body>
 </html>
