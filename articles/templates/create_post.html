@@ -1,38 +1,65 @@
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title>Создание записи</title>
-    <link rel="stylesheet" href="{% static 'css/archive.css' %}">
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <title>Создать публикацию</title>
+    <link rel="stylesheet" href="{% static 'css/archive.css' %}" />
+  </head>
+  <body>
     <div class="header">
-        <a href="{% url 'archive' %}"><img src="{% static 'img/dpb-logo.png' %}" /></a>
+      <div class="header-navbar">
+        <a href="{% url 'archive' %}"><img class="logo" src="{% static 'img/dpb-logo.png' %}" /></a>
+        <p class="service-title">Блог-платформа</p>
+        <div class="nav-actions">
+          {% if user.is_authenticated %}
+          <a href="{% url 'register' %}" class="register-link">{{ user.username }}</a>
+          <a href="{% url 'create_post' %}" class="register-link">Добавить статью</a>
+          <a href="{% url 'logout' %}" class="register-link">Выйти</a>
+          {% else %}
+          <a href="{% url 'register' %}" class="register-link">Регистрация</a>
+          <a href="{% url 'login' %}" class="register-link">Войти</a>
+          <a href="{% url 'create_post' %}" class="register-link">Добавить статью</a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="parallax-banner">
+        <div class="icons-for-parallax">
+          <img class="icon-for-parallax-first" src="{% static 'img/article-icon-for-parallax.png' %}" />
+          <img class="icon-for-parallax-second" src="{% static 'img/article-icon-for-parallax.png' %}" />
+          <img class="icon-for-parallax-third" src="{% static 'img/article-icon-for-parallax.png' %}" />
+        </div>
+      </div>
     </div>
     <div class="create-page">
-        <a href="{% url 'archive' %}" class="back-link">&larr; Вернуться назад</a>
-        <div class="create-card">
-            <h2 class="create-title">Создание записи</h2>
-            <p style="color: #888; font-size: 14px; margin: -20px 0 25px;">Заполните поля ниже, чтобы добавить новую запись в блог</p>
-            <form method="POST" class="create-form">{% csrf_token %}
-                <div class="form-group">
-                    <label for="id_title">Тема</label>
-                    <input type="text" id="id_title" name="title" placeholder="Тема статьи" value="{{ form.title }}">
-                </div>
-                <div class="form-group">
-                    <label for="id_text">Содержание</label>
-                    <textarea id="id_text" name="text" placeholder="Содержание статьи...">{{ form.text }}</textarea>
-                </div>
-                {% if form.errors %}
-                <div class="field-errors">{{ form.errors }}</div>
-                {% endif %}
-                <div class="form-actions">
-                    <a href="{% url 'archive' %}" class="btn-cancel">Назад</a>
-                    <input type="submit" value="Добавить" class="btn-submit">
-                </div>
-            </form>
-        </div>
+      <a href="{% url 'archive' %}" class="back-link">&larr; Назад к статьям</a>
+      <div class="create-card">
+        <h2 class="create-title">Создать публикацию</h2>
+        <p style="color: #999; font-size: 14px; margin: -20px 0 25px;">Расскажите о чём-нибудь интересном</p>
+        <form method="POST" class="create-form">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="id_title">Заголовок</label>
+            <input type="text" id="id_title" name="title" placeholder="Придумайте заголовок" value="{{ form.title }}">
+          </div>
+          <div class="form-group">
+            <label for="id_text">Содержание</label>
+            <textarea id="id_text" name="text" placeholder="Расскажите что-нибудь интересное...">{{ form.text }}</textarea>
+          </div>
+          {% if form.errors %}
+          <div class="field-errors">{{ form.errors }}</div>
+          {% endif %}
+          <div class="form-actions">
+            <a href="{% url 'archive' %}" class="btn-cancel">Отмена</a>
+            <input type="submit" value="Отправить" class="btn-submit">
+          </div>
+        </form>
+      </div>
     </div>
-</body>
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/helloworld.js' %}"></script>
+    <script src="{% static 'js/fold-post.js' %}"></script>
+    <script src="{% static 'js/highlight-post.js' %}"></script>
+    <script src="{% static 'js/parallax.js' %}"></script>
+  </body>
 </html>

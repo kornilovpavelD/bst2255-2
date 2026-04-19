@@ -1,38 +1,71 @@
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <title>Каталог публикаций</title>
-    <link rel="stylesheet" href="{% static 'css/archive.css' %}">
-</head>
-<body class="archive">
+    <link rel="stylesheet" href="{% static 'css/archive.css' %}" />
+  </head>
+  <body>
     <div class="header">
-        <img src="{% static 'img/dpb-logo.png' %}" />
+      <div class="header-navbar">
+        <img class="logo" src="{% static 'img/dpb-logo.png' %}" alt="" />
+        <p class="service-title">Блог-платформа</p>
         <div class="nav-actions">
-            {% if user.is_authenticated %}
-                <span class="nav-link">{{ user.username }}</span>
-                <a href="{% url 'logout' %}" class="nav-link">Покинуть</a>
-            {% else %}
-                <a href="{% url 'login' %}" class="nav-link">Авторизоваться</a>
-                <a href="{% url 'register' %}" class="nav-link">Создать аккаунт</a>
-            {% endif %}
+          {% if user.is_authenticated %}
+          <a href="{% url 'register' %}" class="register-link"
+            >{{ user.username }}</a
+          >
+          <a href="{% url 'create_post' %}" class="register-link"
+            >Новая запись</a
+          >
+          <a href="{% url 'logout' %}" class="register-link">Выйти</a>
+          {% else %}
+          <a href="{% url 'register' %}" class="register-link">Регистрация</a>
+          <a href="{% url 'login' %}" class="register-link">Войти</a>
+          <a href="{% url 'create_post' %}" class="register-link"
+            >Новая запись</a
+          >
+          {% endif %}
         </div>
+      </div>
+      <div class="parallax-banner">
+        <div class="icons-for-parallax">
+          <img
+            class="icon-for-parallax-first"
+            src="{% static 'img/article-icon-for-parallax.png' %}"
+          />
+          <img
+            class="icon-for-parallax-second"
+            src="{% static 'img/article-icon-for-parallax.png' %}"
+          />
+          <img
+            class="icon-for-parallax-third"
+            src="{% static 'img/article-icon-for-parallax.png' %}"
+          />
+        </div>
+      </div>
     </div>
     <div class="archive">
-        {% for post in posts %}
-        <div class="one-post">
-            <h2 class="post-title"><a href="{% url 'get_article' post.id %}">{{ post.title }}</a></h2>
-            <span class="fold-button">скрыть</span>
-            <div class="article-info">
-                <div class="article-author">{{ post.author.username }}</div>
-                <div class="article-created-date">{{ post.created_date }}</div>
-            </div>
-            <p class="article-text">{{ post.get_excerpt }}</p>
+      {% for post in posts %}
+      <div class="one-post">
+        <h2 class="post-title">
+          <a href="{% url 'get_article' post.id %}">{{ post.title }}</a>
+        </h2>
+        <span class="fold-button">скрыть</span>
+        <div class="article-info">
+          <div class="article-author">{{ post.author.username }}</div>
+          <div class="article-created-date">{{ post.created_date }}</div>
         </div>
-        {% endfor %}
+        <p class="article-text">{{ post.get_excerpt }}</p>
+        <div class="one-post-shadow"></div>
+      </div>
+      {% endfor %}
     </div>
+    <script src="{% static 'js/jquery.js' %}"></script>
     <script src="{% static 'js/helloworld.js' %}"></script>
     <script src="{% static 'js/fold-post.js' %}"></script>
-</body>
+    <script src="{% static 'js/highlight-post.js' %}"></script>
+    <script src="{% static 'js/parallax.js' %}"></script>
+  </body>
 </html>

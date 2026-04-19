@@ -1,41 +1,68 @@
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <title>Регистрация</title>
-    <link rel="stylesheet" href="{% static 'css/archive.css' %}">
-</head>
-<body>
+    <link rel="stylesheet" href="{% static 'css/archive.css' %}" />
+  </head>
+  <body>
     <div class="header">
-        <a href="{% url 'archive' %}"><img src="{% static 'img/dpb-logo.png' %}" /></a>
+      <div class="header-navbar">
+        <a href="{% url 'archive' %}"><img class="logo" src="{% static 'img/dpb-logo.png' %}" /></a>
+        <p class="service-title">Блог-платформа</p>
+        <div class="nav-actions">
+          {% if user.is_authenticated %}
+          <a href="{% url 'register' %}" class="register-link">{{ user.username }}</a>
+          <a href="{% url 'create_post' %}" class="register-link">Добавить статью</a>
+          <a href="{% url 'logout' %}" class="register-link">Выйти</a>
+          {% else %}
+          <a href="{% url 'register' %}" class="register-link">Регистрация</a>
+          <a href="{% url 'login' %}" class="register-link">Войти</a>
+          <a href="{% url 'create_post' %}" class="register-link">Добавить статью</a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="parallax-banner">
+        <div class="icons-for-parallax">
+          <img class="icon-for-parallax-first" src="{% static 'img/article-icon-for-parallax.png' %}" />
+          <img class="icon-for-parallax-second" src="{% static 'img/article-icon-for-parallax.png' %}" />
+          <img class="icon-for-parallax-third" src="{% static 'img/article-icon-for-parallax.png' %}" />
+        </div>
+      </div>
     </div>
     <div class="create-page">
-        <a href="{% url 'archive' %}" class="back-link">&larr; Назад</a>
-        <div class="create-card">
-            <h2 class="create-title">Регистрация</h2>
-            <form method="POST" class="create-form">{% csrf_token %}
-                <div class="form-group">
-                    <label for="id_username">Логин</label>
-                    <input type="text" id="id_username" name="username" placeholder="Логин" value="{{ form.username }}">
-                </div>
-                <div class="form-group">
-                    <label for="id_email">Email</label>
-                    <input type="email" id="id_email" name="email" placeholder="Email" value="{{ form.email }}">
-                </div>
-                <div class="form-group">
-                    <label for="id_password">Пароль</label>
-                    <input type="password" id="id_password" name="password" placeholder="Пароль">
-                </div>
-                {% if form.errors %}
-                <div class="field-errors">{{ form.errors }}</div>
-                {% endif %}
-                <div class="form-actions">
-                    <input type="submit" value="Создать" class="btn-submit">
-                </div>
-            </form>
-            <p class="login-hint">Есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
-        </div>
+      <a href="{% url 'archive' %}" class="back-link">&larr; Назад</a>
+      <div class="create-card">
+        <h2 class="create-title">Регистрация</h2>
+        <form method="POST" class="create-form">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="id_username">Логин</label>
+            <input type="text" id="id_username" name="username" placeholder="Логин" value="{{ form.username }}">
+          </div>
+          <div class="form-group">
+            <label for="id_email">Email</label>
+            <input type="email" id="id_email" name="email" placeholder="Email" value="{{ form.email }}">
+          </div>
+          <div class="form-group">
+            <label for="id_password">Пароль</label>
+            <input type="password" id="id_password" name="password" placeholder="Пароль">
+          </div>
+          {% if form.errors %}
+          <div class="field-errors">{{ form.errors }}</div>
+          {% endif %}
+          <div class="form-actions">
+            <input type="submit" value="Создать" class="btn-submit">
+          </div>
+        </form>
+        <p class="login-hint">Есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
+      </div>
     </div>
-</body>
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/helloworld.js' %}"></script>
+    <script src="{% static 'js/fold-post.js' %}"></script>
+    <script src="{% static 'js/highlight-post.js' %}"></script>
+    <script src="{% static 'js/parallax.js' %}"></script>
+  </body>
 </html>
